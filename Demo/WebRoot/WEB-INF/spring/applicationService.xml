@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- Action configuration -->
+
+	
+	<bean name="userInfoService" class="com.seamoon.demo.serviceimpl.UserInfoServiceImpl" singleton="false">
+	    <property name="userInfoDAO">
+	        <ref bean="userInfoDAO"/>
+	    </property>
+	    
+	</bean>
+	
+</beans>

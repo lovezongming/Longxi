@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	 <bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:database.properties</value>
+		</property>
+	</bean>
+  
+  <!-- 连接demo数据库 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- 指定连接数据库的驱动 -->
+		<property name="driverClassName">
+			<value>${demo.database.driverclassname}</value>
+		</property>
+		<!-- 指定连接数据库的URL -->
+		<property name="url">
+			<value>${demo.database.url}</value>
+		</property>
+		<!-- 指定连接数据库的用户名 -->
+		<property name="username" >
+		<value>${demo.database.username}</value>
+		</property>
+		<!-- 指定连接数据库的密码 -->
+		<property name="password" >
+		<value>${demo.database.password}</value>
+		</property>
+		<!-- 连接池中可同时连接的最大的连接数，为0则表示没有限制，默认为8 -->
+		<property name="maxActive" value="200"/> 
+		<!-- 连接池启动时创建的初始化连接数量 -->
+		<property name="initialSize" value="10"/> 
+		<!-- 连接池中最大的空闲的连接数（默认为8,设 0 为没有限制）,超过的空闲连接将被释放 -->
+        <property name="maxIdle" value="20"/> 
+        <!-- 连接池中最小的空闲的连接数（默认为0，一般可调整5），低于这个数量会被创建新的连接 -->
+        <property name="minIdle" value="5"/>
+        <!--最大建立连接等待时间。如果超过此时间将接到异常。设为－1 表示无限制。 -->
+        <property name="maxWait" value="10000"/> 
+        <!-- 是否可用预执行 -->  
+        <property name="poolPreparedStatements" value="true" />
+     
+	
+	</bean>
+	<!--定义了Hibernate的SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<!--<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+				--><prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/seamoon/demo/entity/UserInfo.hbm.xml</value></list>
+		</property></bean>
+		<!-- 配置事务管理器bean,使用HibernateTransactionManager事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+	<!-- 配置事务拦截器Bean -->
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+   		 <!-- 为事务拦截器bean注入一个事物管理器 -->
+    		<property name="transactionManager" ref="transactionManager"></property>
+    		<property name="transactionAttributes">
+    		<!-- 定义事务传播属性 -->
+        	<props>
+                <prop key="add*">PROPAGATION_REQUIRED</prop> 
+                <prop key="back*">PROPAGATION_REQUIRED</prop> 
+                <prop key="pass*">PROPAGATION_REQUIRED</prop>
+                <prop key="commit＊">PROPAGATION_REQUIRED</prop>  
+				<prop key="modify*">PROPAGATION_REQUIRED</prop> 
+				<prop key="reset*">PROPAGATION_REQUIRED</prop> 
+				<prop key="del*">PROPAGATION_REQUIRED</prop> 
+				<prop key="save*">PROPAGATION_REQUIRED</prop> 
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop> 
+        	</props>
+    	</property>
+	</bean>
+		
+	<bean id="UserInfoDAO" class="com.seamoon.demo.daoimpl.UserInfoDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	</beans>

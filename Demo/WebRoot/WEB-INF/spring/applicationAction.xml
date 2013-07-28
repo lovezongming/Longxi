@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- Action configuration -->
+
+	
+	<bean name="UserInfoAction" class="com.seamoon.demo.action.UserInfoAction" singleton="false">
+	    <property name="userInfoService">
+	        <ref bean="userInfoService"/>
+	    </property>
+	    
+	</bean>
+	<bean name="ReportUserInfoAction" class="com.seamoon.demo.action.ReportUserInfoAction" singleton="false">
+	    <property name="userInfoService">
+	        <ref bean="userInfoService"/>
+	    </property>
+	    
+	</bean>
+	
+	
+</beans>

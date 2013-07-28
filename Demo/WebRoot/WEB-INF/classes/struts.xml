@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+<constant name="struts.objectFactory" value="spring" />
+
+
+
+<package name="user" extends="struts-default">
+	<action name="showUserInfo" class="UserInfoAction" method="showAllRecord">
+	<result name="success">/jsp/show.jsp</result>
+	</action>
+	<action name="addUserInfo" class="UserInfoAction" method="addUserInfo">
+	<result name="success">/jsp/addsuccess.jsp</result>
+	</action>
+	<action name="editorIn" class="UserInfoAction" method="editorIn">
+	<result name="success">/jsp/editor.jsp</result>
+	</action>
+	<action name="editor" class="UserInfoAction" method="updateeditor">
+	<result name="success">/jsp/editorsuccess.jsp</result>
+	</action>
+	<action name="delUserInfo" class="UserInfoAction" method="delUserInfo">
+	<result name="success">/jsp/deletesuccess.jsp</result>
+	</action>
+	
+	<action name="deleteAll" class="UserInfoAction" method="deleteAll">
+	<result name="success">/jsp/deletesuccess.jsp</result>
+	</action>
+	<action name="report" class="ReportUserInfoAction" method="ReportUserInfo">
+	</action>
+	<action name="report2" class="ReportUserInfoAction" method="Report2UserInfo">
+	</action>
+	</package>
+
+</struts>    
